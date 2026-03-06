@@ -1,9 +1,9 @@
-import Map from "./components/Map";
+import MapPage from "./pages/MapPage";
 
 export default function App() {
   return (
     <>
-      <Map />
+      <MapPage />
     </>
   );
 }
