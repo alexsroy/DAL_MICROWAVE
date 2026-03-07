@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { addReview } from "../../services/reviewService";
 
-export default function ReviewForm({ microwaveId, onReviewAdded }) {
+export default function ReviewForm({ submitReview }) {
   const [name, setName] = useState("");
   const [rating, setRating] = useState(0);
   const [text, setText] = useState("");
@@ -10,34 +9,27 @@ export default function ReviewForm({ microwaveId, onReviewAdded }) {
     e.preventDefault();
 
     if (!rating) {
-      alert("Please select a rating.");
+      alert("Please select a rating");
       return;
     }
 
-    const review = {
-      microwaveId,
+    submitReview({
       name: name || "Anonymous",
       rating,
-      text,
-      timestamp: Date.now()
-    };
-
-    addReview(review);
+      text
+    });
 
     setName("");
     setRating(0);
     setText("");
-
-    onReviewAdded();
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginTop: "10px" }}>
+    <form onSubmit={handleSubmit}>
       <h4>Leave a Review</h4>
 
       <input
-        type="text"
-        placeholder="Your name"
+        placeholder="Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
@@ -50,7 +42,7 @@ export default function ReviewForm({ microwaveId, onReviewAdded }) {
             style={{
               cursor: "pointer",
               fontSize: "22px",
-              color: star <= rating ? "gold" : "lightgray"
+              color: star <= rating ? "gold" : "#ccc"
             }}
           >
             ★
@@ -59,7 +51,7 @@ export default function ReviewForm({ microwaveId, onReviewAdded }) {
       </div>
 
       <textarea
-        placeholder="Write something..."
+        placeholder="Write a review"
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
